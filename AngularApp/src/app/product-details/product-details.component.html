@@ -1,0 +1,45 @@
+<h2>Product Details</h2>
+
+<div *ngIf="product">
+  <h4 class="text-primary">{{ product.name }}</h4>
+  <h5>{{ product.price | currency }}</h5>
+  <p>{{ product.description }}</p>
+  <form [formGroup]="cartForm" (ngSubmit)="onSubmit(product, template)">
+    <div class="d-flex">
+      <span class="rounded btn btn-primary btn-group btn-sm" (click)="decrement()"><i
+          class="material-icons">remove</i></span>
+      <input class="form-control" formControlName="productCount" type="number" (change)="changeInput($event)" required
+        style="max-width: 80px; margin: 0px 10px;">
+      <span class="rounded btn btn-primary btn-group btn-sm" (click)="increment()"><i
+          class="material-icons">add</i></span>
+    </div>
+    <div class="mt-2" *ngIf="productCount.invalid && (productCount.dirty || productCount.touched)" >
+      <div class="text-danger" *ngIf="productCount.errors.required">
+        Atleast one item required.
+      </div>
+      <div class="text-danger" *ngIf="productCount.errors.min">
+        Items cannot be in negative or zero
+      </div>
+    </div>
+    <button class="btn btn-primary d-block mt-3" type="submit">Add to cart</button>
+    <!-- <div *ngIf="f.productCount.errors.required">
+      productCount is required.
+    </div> -->
+  </form>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left text-primary">Add to cart</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h5 class="mb-0" *ngIf="count>1">Added {{cartForm.get('productCount').value}} items to cart</h5>
+    <h5 class="mb-0" *ngIf="count==1">Added {{cartForm.get('productCount').value}} item to cart</h5>
+  </div>
+  <div class="modal-footer">
+    <a [routerLink]="['/cart']" class="btn btn-primary" (click)="modalRef.hide()">Checkout</a>
+  </div>
+</ng-template>

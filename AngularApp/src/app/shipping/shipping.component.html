@@ -1,0 +1,26 @@
+<h3 class="mb-4 pb-2 mt-2">Shipping Prices</h3>
+
+<!-- <div class="shipping-item" *ngFor="let shipping of shippingCosts | async; let i = index">
+  <span>{{ shipping.type }}</span>
+  <span>{{ shipping.price | currency }}</span>
+</div> -->
+<div class="row">
+  <div class="col-sm-6 col-md-5 col-xl-4">
+    <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()">
+      <div class="fancy-radio" *ngFor="let shipping of shippingCosts | async; let i = index, let first= first ;">
+        <input type="radio" id="customRadio{{i}}" value="{{shipping.type}}" formControlName="shippingItem" class="">
+        <label class="" for="customRadio{{i}}">
+          <div class="d-flex">
+            <div class="checkmark">
+              <i class="material-icons">done</i>
+            </div>
+            <div class="flex-grow-1 p-3">
+              <h5 class="mb-0">{{ shipping.type }} - <span class="font-weight-bold mb-0">{{ shipping.price | currency }}</span></h5>
+            </div>
+          </div>
+        </label>
+      </div>
+      <button class="btn btn-primary mt-3" type="submit" [disabled]="!shippingForm.valid">Submit</button>
+    </form>
+  </div>
+</div>

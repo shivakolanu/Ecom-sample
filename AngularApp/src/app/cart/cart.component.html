@@ -1,0 +1,52 @@
+<h3 class="text-primary">Cart</h3>
+
+<div class="cart-item" *ngFor="let item of items | keyvalue">
+  <div>
+    {{ item.key }} <span class="font-weight-bolder">x</span> {{item.value["quantity"]}}
+  </div>
+  <span>{{item.value["quantity"]}}*{{item.value["price"]}} = {{item.value["quantity"] * item.value["price"]}}</span>
+</div>
+<div *ngIf="items.size > 0">
+  <div class="row">
+    <div class="col-sm-8 col-lg-6 col-xl-4">
+      <h3 class="text-primary mt-3">Shipping details</h3>
+      <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+        <div class="form-group">
+          <label for="name">
+            Name
+          </label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter email" id="name">
+          <div class="mt-2" *ngIf="submitted && name.invalid ">
+            <div class="text-danger" *ngIf="name.errors.required">
+              Name is required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">
+            Address
+          </label>
+          <input class="form-control" placeholder="Enter address" id="address" type="text" formControlName="address">
+          <div class="mt-2" *ngIf="submitted && address.invalid ">
+            <div class="text-danger" *ngIf="address.errors.required">
+              Address is required.
+            </div>
+          </div>
+        </div>
+        <div class="form-group" *ngIf="shipping">
+          <div class="text-primary mb-1">Shipping method </div>
+          <h4 class="d-inline-block mb-0">{{shipping}}</h4><a routerLink="/shipping">(Change)</a>
+        </div>
+        <div class="form-group" *ngIf="!shipping">
+          <a routerLink="/shipping">Select shipping method</a>
+          <div class="text-danger" *ngIf="!shippingValue">
+            Not selected
+          </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Purchase</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<h5 *ngIf="!items.size > 0">Your cart is empty, Please add products to cart.</h5>
