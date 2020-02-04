@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl, FormArray } from '@angular/forms';
 
 import { CartService } from '../shared/cart.service';
 import { ActivatedRoute } from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cart',
@@ -12,39 +11,78 @@ import { filter } from 'rxjs/operators';
 })
 export class CartComponent {
   items;
-  checkoutForm;
   shipping;
   submitted = false;
   shippingValue = true;
+
   constructor(
     private cartService: CartService,
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private route: ActivatedRoute
   ) {
-    this.items = this.cartService.getItems();
-    console.log(this.items)
-    this.checkoutForm = this.formBuilder.group({
+  }
+
+  checkoutForm = this.fb.group({
+    cartForm: this.fb.array([
+
+    ]),
+    shippingDetailsForm: this.fb.group({
       name: ['', Validators.required],
-      address: ['', Validators.required],
+      address: ['', Validators.required]
+    })
+  });
+
+  ngOnInit() {
+    this.shipping = JSON.parse(localStorage.getItem("shipping"));
+    this.items = this.cartService.getItems();
+
+    this.items.forEach((value: boolean, key: string) => {
+      let fc = this.fb.control(value['quantity']);
+      this.cartForm.push(fc);
     });
   }
 
-  ngOnInit() {
-    this.route.queryParams
-      .subscribe(params => {
-        this.shipping = params.shipping;
-      });
+  getEntries(){
+    return Array.from(this.items.entries());
   }
+  get name() { return this.checkoutForm.get('shippingDetailsForm.name'); }
+  get cartForm() { return this.checkoutForm.get('cartForm') as FormArray; }
+  get address() { return this.checkoutForm.get('shippingDetailsForm.address'); }
 
-  get name() { return this.checkoutForm.get('name'); }
-  get address() { return this.checkoutForm.get('address'); }
+  decrement(itemKey, index) {
+    if (+(this.cartForm.at(index).value) > 1) {
+      var count = +(this.cartForm.at(index).value) - 1;
+      this.items.forEach((value: boolean, key: string) => {
+        if (key == itemKey) {
+          value["quantity"] = count;
+        }
+      });
+      this.cartForm.at(index).setValue(count);
+    }
+  }
+  increment(itemKey, index) {
+    var count = +(this.cartForm.at(index).value) + 1;
+    this.items.forEach((value: boolean, key: string) => {
+      if (key == itemKey) {
+        value["quantity"] = count;
+      }
+    });
+    this.cartForm.at(index).setValue(count);
+  }
+  changeInput(itemKey, $event) {
+    var count = $event.target.value;
+    this.items.forEach((value: boolean, key: string) => {
+      if (key == itemKey) {
+        value["quantity"] = count;
+      }
+    });
+  }
 
   onSubmit(customerData) {
     // Process checkout data here
     this.submitted = true;
-    console.log(this.shipping)
-    if(!this.shipping){
-      this.shippingValue =false;
+    if (!this.shipping) {
+      this.shippingValue = false;
     }
     if (this.checkoutForm.invalid) {
       return;

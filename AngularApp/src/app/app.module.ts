@@ -15,14 +15,17 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductAlertsComponent } from './product-alerts/product-alerts.component';
 import { CartComponent } from './cart/cart.component';
 import { CartService } from './shared/cart.service';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 
 const routes: Routes = [
-  { path: '', component: ProductListComponent },
+  { path: '', redirectTo: '/products', pathMatch: 'full'},
+  { path: 'products', component: ProductListComponent },
   { path: 'products/:productId', component: ProductDetailsComponent },
   { path: 'cart', component: CartComponent },
   { path: 'shipping', component: ShippingComponent },
+  { path: '**', component: PageNotFoundComponent }
 ];
 @NgModule({
   declarations: [
@@ -32,7 +35,8 @@ const routes: Routes = [
     ProductListComponent,
     ProductDetailsComponent,
     ProductAlertsComponent,
-    CartComponent
+    CartComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

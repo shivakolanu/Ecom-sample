@@ -7,12 +7,15 @@ import { Product } from './product.model';
 })
 export class ProductService {
 
-  products: Product[];
-  readonly baseURL = 'http://localhost:3000';
+  // products: Product[];
+  readonly baseURL = 'http://localhost:3000/products';
 
   constructor(private http: HttpClient) { }
 
   getProducts() {
     return this.http.get(this.baseURL);
+  }
+  getSpecificProduct(_id: string) {
+    return this.http.get(this.baseURL+`/${_id}`);
   }
 }

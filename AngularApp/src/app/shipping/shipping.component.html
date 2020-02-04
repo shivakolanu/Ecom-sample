@@ -7,8 +7,8 @@
 <div class="row">
   <div class="col-sm-6 col-md-5 col-xl-4">
     <form [formGroup]="shippingForm" (ngSubmit)="onSubmit()">
-      <div class="fancy-radio" *ngFor="let shipping of shippingCosts | async; let i = index, let first= first ;">
-        <input type="radio" id="customRadio{{i}}" value="{{shipping.type}}" formControlName="shippingItem" class="">
+      <div class="fancy-radio" *ngFor="let shipping of shippingTypes; let i = index, let first= first ;">
+        <input type="radio" id="customRadio{{i}}" value="{{shipping.type}}" formControlName="shippingMethod" class="">
         <label class="" for="customRadio{{i}}">
           <div class="d-flex">
             <div class="checkmark">
@@ -20,7 +20,7 @@
           </div>
         </label>
       </div>
-      <button class="btn btn-primary mt-3" type="submit" [disabled]="!shippingForm.valid">Submit</button>
+      <button class="btn btn-primary mt-3" type="submit">Submit</button>
     </form>
   </div>
 </div>

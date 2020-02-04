@@ -1,26 +1,29 @@
 import { Component } from '@angular/core';
 // import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
-import { products } from '../shared/products';
+// import { products } from '../shared/products';
 import { AlertService } from '../shared/_alert';
 import { ProductService } from '../shared/product.service';
-
-
+import { Product } from '../shared/product.model'
+ 
 @Component({
   selector: 'app-product-list',
   templateUrl: './product-list.component.html',
   styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent {
-  products = products;
+  products: Product[];
   test;
   constructor(private alertService: AlertService,
     private productService: ProductService
   ) { }
   
   ngOnInit() {
-    
+    this.productService.getProducts().subscribe((res) => {
+      this.products = res as Product[];
+    });
   }
+
   share(productName) {
     this.alertService.success(`"${productName}" has been shared!`);
     // window.alert(`"${productName}" has been shared!`);
