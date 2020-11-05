@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Shipping } from './shipping.model'
- 
+import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +9,7 @@ export class CartService {
   // items = {};
   shipping: Shipping;
   items = new Map();
-  readonly baseURL = 'http://localhost:3000/shipping';
+  readonly baseURL = environment.baseUrl+'/shipping';
 
   constructor(
     private http: HttpClient,

@@ -1,10 +1,12 @@
-<a class="text-decoration-none" [routerLink]="['/']">
-    <h1>My Store</h1>
+<a class="text-decoration-none" [routerLink]="['/products']">
+  <h1>My Store</h1>
 </a>
-
-<a [routerLink]="['/cart']" class="btn btn-group fancy-button text-decoration-none"><i
-        class="material-icons">shopping_cart</i>Checkout</a>
-
+<div class="my-2">
+  <a [routerLink]="['/cart']" class="btn btn-group fancy-button text-decoration-none"><i
+      class="material-icons">shopping_cart</i>Checkout</a>
+  <a [routerLink]="['/userprofile']" class="ml-3 text-decoration-none">
+    <i style="vertical-align: middle;font-size: 38px;" class="material-icons text-white">account_circle</i></a>
+</div>
 <!-- 
   Copyright Google LLC. All Rights Reserved.
   Use of this source code is governed by an MIT-style license that

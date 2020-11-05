@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Product } from './product.model';
+
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,7 @@ import { Product } from './product.model';
 export class ProductService {
 
   // products: Product[];
-  readonly baseURL = 'http://localhost:3000/products';
+  readonly baseURL = environment.baseUrl+'/products';
 
   constructor(private http: HttpClient) { }
 

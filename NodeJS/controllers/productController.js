@@ -1,5 +1,5 @@
-const express = require('express');
-var router = express.Router();
+// const express = require('express');
+// var router = express.Router();
 var ObjectId = require('mongoose').Types.ObjectId;
 
 var { Product } = require('../models/product');
@@ -15,7 +15,9 @@ var { Product } = require('../models/product');
 //     else { console.log('Error in Product Save: '+ JSON.stringify(err, undefined, 2)); }
 // });
 
-router.get('/', (req,res) => {
+// router.get('/products/', );
+
+module.exports.get_products = (req,res) => {
     Product.find((err, docs) => {
         if(!err) {
             res.send(docs); 
@@ -23,10 +25,10 @@ router.get('/', (req,res) => {
         else{
             console.log('Error in Retriving Products :' + JSON.stringify(err, undefined, 2));
         }
-    });
-});
+    }); 
+}
 
-router.get('/:id', (req,res) =>{
+module.exports.get_product_by_id = (req,res) => {
     if(!ObjectId.isValid(req.params.id))
         return res.status(400).send(`No record with given id : ${req.params.id}`);
     
@@ -34,6 +36,8 @@ router.get('/:id', (req,res) =>{
         if(!err) { res.send(doc); }
         else{ console.log('Error in retriving Product: ' + JSON.stringify(err, undefined, 2)); }
     });
-});
+}; 
 
-module.exports = router;
+// router.get('/products/:id/', );
+
+// module.exports = router;
