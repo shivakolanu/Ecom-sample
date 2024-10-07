@@ -1,9 +1,3 @@
-# Ecom-sample
-
-Here is a customized `README.md` for the project you shared, assuming it's an Angular and Node.js based e-commerce application:
-
----
-
 # Ecom-Sample
 
 A full-stack e-commerce web application developed using Angular for the frontend and Node.js for the backend. This project includes features like product listing, shopping cart, and order management.
